@@ -1,0 +1,156 @@
+@use "../base/settings";
+@use "../base/base";
+
+
+//Desktop
+
+header {
+  height: 5rem;
+  background: white;
+  box-shadow: 0 0.4rem 2rem 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 2.7rem;
+
+
+
+  .basic-grid {
+  }
+}
+
+.header__logo {
+
+  &_1 {
+    width: 4rem;
+    height: fit-content;
+  }
+
+  &_2 {
+    width: 7rem;
+  }
+
+  &_3 {
+    width: 3rem;
+  }
+
+
+}
+
+.header__ticket-info {
+  flex-grow: 1;
+  text-align: center;
+  color: settings.$blue;
+}
+
+.header__logout {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+
+  &:before {
+    content: '';
+    width: 2.4rem;
+    height: 2.4rem;
+    background-size: 2.4rem !important;
+    background: url('../assets/logoout_icon.svg') no-repeat center ;
+  }
+
+
+
+}
+body.login .header__logout {
+  display: none;
+}
+
+.header__logout.floating-button {
+  display: none;
+}
+
+
+
+
+//Mobile
+
+@media screen and (max-width: 1023px) {
+
+  .header__mobile {
+    .header__logout {
+      display: none;
+    }
+
+
+  }
+
+  header {
+    position: absolute;
+    bottom: 0;
+    background: transparent;
+    inset: auto 0 0 0;
+    margin: auto;
+    box-shadow: none;
+    height: 6rem;
+    bottom: 0;
+    justify-content: center;
+
+    .basic-grid {
+      justify-content: center;
+      gap: 1rem;
+    }
+  }
+
+  .header__logo {
+
+    &_1 {
+      width: 3rem;
+    }
+  }
+
+  .header__logout{
+
+&.floating-button {
+
+  background: settings.$light-blue;
+  width: 3.5rem;
+  height: 3.5rem;
+  position: absolute;
+  z-index: 9999999;
+  border-radius: 100%;
+  justify-content: center;
+  left: 0.9rem;
+  top: 0.8rem;
+  box-shadow:0px 0px 18.75px 0px rgba(0, 0, 0, 0.1);
+  display: flex;
+  // padding: 0.3rem  0rem  0.3rem  0.3rem;
+
+  &:before {
+    width: 2rem;
+    height: 2rem;
+    background-size: 2rem !important;
+  }
+
+
+  }
+}
+
+
+
+  .header__ticket-info {
+    display: none;
+  }
+
+  #root:has(.qr__login) {
+
+    header {
+      bottom: 7rem;
+    }
+    
+  }
+
+  
+}

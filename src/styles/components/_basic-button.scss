@@ -1,0 +1,65 @@
+@use "../base/settings";
+@use "../base/base";
+
+.basic-button {
+    background-color: settings.$medium-blue;
+    border-radius: 3.8rem;
+    height: 3.7rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: white;
+    width: fit-content;
+    padding: 0 4rem;
+    margin: auto;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: .3s all;
+
+    &.secondary {
+        background-color: transparent;
+        color: settings.$medium-blue;
+        border: 0.1rem solid settings.$medium-blue;
+
+        &:hover {
+            background-color: white;
+            color: lighten(settings.$medium-blue, 20%);
+            border: 0.1rem solid lighten(settings.$medium-blue, 20%);
+        }
+    }
+
+    &:hover {
+        background-color: settings.$hover-blue;
+        cursor: pointer;
+        ;
+    }
+
+
+    &:disabled {
+        background-color: lighten(settings.$medium-blue, 20%);
+        cursor: auto;
+        ;
+
+    }
+
+    &.button-small {
+        font-size: 1.4rem;
+        padding: 0 2rem;
+
+    }
+
+    &.with-icon {
+
+        gap: 1rem;
+        
+        &:before {
+            content: '';
+            background: url('../assets/mobile/playIcon.svg') no-repeat center;
+            width: 1.0677rem;
+            height: 1.3416rem;
+            background-size: 1.0677rem;
+        }
+
+        &.play-icon {}
+    }
+}

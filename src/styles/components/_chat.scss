@@ -1,0 +1,308 @@
+@use '../base/base';
+@use '../base/settings';
+
+.chat {
+    position: absolute;
+    left: 7rem;
+    bottom: 10rem;
+}
+
+//Chat icon
+.chat button {
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 100%;
+    color: white;
+    width: 8.7rem;
+    height: 8.7rem;
+    border-radius: 100%;
+    background-color: settings.$blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.8rem 2rem 2rem 2rem;
+    box-shadow: 0px 0px 18.75px 0px rgba(0, 0, 0, 0.10);
+    cursor: pointer;
+
+
+    &:before {
+        content: '';
+        width: 4.2414rem;
+        height: 3.8361rem;
+        position: absolute;
+        background: url('../assets/chat/chatIcon.svg') no-repeat center;
+        background-size: 4.2414rem;
+        top: -1.7rem
+    }
+}
+
+//Modal
+
+
+
+
+.chat-modal .ReactModal {
+
+    &__Overlay {
+        z-index: 10;
+        backdrop-filter: blur(7px);
+        background: rgba(black, 30%) !important;
+        opacity: 0;
+        transition: .3s all;
+
+        &--after-open {
+            opacity: 1;
+        }
+
+        &--before-close {
+            opacity: 0;
+        }
+
+    }
+
+    &__Content {
+        width: 41.2rem;
+        height: 5.7rem;
+        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0px 3.4px 17px 0px rgba(0, 0, 0, 0.06);
+        background-color: settings.$blue !important;
+        justify-content: flex-end;
+        transition: .3s all;
+
+        &--after-open {
+            opacity: 1;
+            height: 50.8rem;
+        }
+
+        &--before-close {
+            opacity: 0;
+            height: 5.7rem;
+        }
+
+    }
+
+}
+
+.chat__form {
+    border-top: 0.1rem solid settings.$light-grey;
+    background-color: settings.$bg-grey;
+    min-height: 5.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3.1rem 0 1.4rem;
+    box-sizing: border-box;
+    position: relative;
+    gap: 1rem;
+    overflow: hidden;
+    transition: .3s all;
+    margin-bottom: 0;
+
+    &.disabled {
+        margin-bottom: -6rem;
+    } 
+
+}
+
+.chat__input {
+    border: none;
+    background: transparent;
+    font-family: settings.$font_main;
+    font-size: 1.36rem;
+    width: 100%;
+    height: 100%;
+    line-height: 140%;
+    resize: none;
+    padding: 1.7rem 0 0 0;
+    box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    &:focus-visible,
+    &:focus {
+        outline: none;
+    }
+
+    &:before {
+        content: '';
+        width: 2.2656rem;
+        height: 2.04rem;
+        background: url('../assets/chat/addMessageIcon.svg') no-repeat center;
+        background-size: 2.2656rem;
+        display: block;
+
+    }
+}
+
+.chat_submit_button {
+    width: 2.0768rem;
+    flex: 0 0 2.0768rem;
+    height: 1.87rem;
+    background-size: 2.0768rem;
+    background: url('../assets/chat/sendMessageIcon-active.svg') no-repeat center;
+    transition: .3s all;
+    cursor: pointer;
+
+
+    &:disabled {
+        background: url('../assets/chat/sendMessageIcon.svg') no-repeat center;
+        cursor: default;
+
+    }
+}
+
+.chat__header {
+    display: grid;
+    grid-template-columns: 1.3rem 1fr;
+    align-items: center;
+    min-height: 5rem;
+    padding: 0 1rem;
+
+    .parag_13 {
+        color: white;
+        text-align: center;
+
+    }
+
+}
+
+.chat__close {
+    width: 1.3rem;
+    height: 1.3rem;
+    background: url('../assets/chat/closeChatIcon.svg') no-repeat center;
+    background-size: 1.3rem;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1023px) {
+
+    .bottom-strip {
+        height: auto;
+        border-top: none;
+
+
+        .basic-grid {
+            display: none;
+        }
+
+    }
+
+    .chat {
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 10;
+
+
+        button {
+            width: 100%;
+            background-color: white;
+            border-radius: 1rem 1rem 0rem 0rem;
+            height: 5.9rem;
+            color: black;
+            font-weight: 400;
+            font-size: 1.6rem;
+            padding: 2rem;
+
+            &:before {
+                display: none;
+            }
+
+            strong {
+                color: settings.$blue;
+                padding-right: 0.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+
+                &:after {
+                    content: '';
+                    display: block;
+                    background: url('../assets/mobile/chat/arrow.svg') no-repeat center;
+                    width: 0.5rem;
+                    height: 0.9rem;
+                    background-size: 0.5rem;
+                }
+
+            }
+
+        }
+    }
+
+
+
+    .chat-modal {
+        
+
+
+        .ReactModal {
+
+            &__Overlay {
+                opacity: 1;
+                backdrop-filter: none;
+                background-color: none !important;
+                background: none !important;
+
+                
+                &--after-open {
+                    opacity: 1;
+                }
+        
+                &--before-close {
+                    opacity: 1 !important;
+                }
+
+
+            }
+
+            &__Content {
+                width: 100vw;
+                height: 0%;
+                bottom:0 !important;
+                left: 0 !important;
+                border-radius: 0 !important;
+                opacity: 1;
+    
+                &--after-open {
+                    height: 100%;
+                    opacity: 1;
+
+                }
+        
+                &--before-close {
+                    height: 0%;
+                    opacity: 1;
+
+                }
+            }
+
+        }
+        
+        
+
+
+    }
+    
+    
+    
+
+
+    .chat__input {
+        padding-top: 1.8rem;
+
+    }
+
+     
+
+
+
+
+}

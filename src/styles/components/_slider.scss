@@ -1,0 +1,186 @@
+@use '../base/settings.scss';
+@use '../base/base.scss';
+
+.slider {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    row-gap: 6.2rem;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+
+    button {
+        font-size: 2rem;
+        color: settings.$blue;
+        text-align: right;
+        font-weight: 400;
+        position: relative;
+
+        &:after {
+            content: '';
+            width: 0;
+            height: 0.2rem;
+            position: absolute;
+            background-color: settings.$blue;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+            right: 0;
+            top: 2.5rem;
+            transition: .3s all;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            &:after {
+                width: 2.4rem;
+            }
+
+        }
+
+        &:disabled {
+            cursor: default;
+            font-weight: 800;
+
+
+            &:after {
+                width: 2.4rem;
+            }
+        }
+
+    }
+}
+
+@media screen and (max-width: 1023px) {
+
+
+
+    .slider {
+        flex-direction: row;
+        width: auto;
+        justify-content: space-between;
+
+        button {
+            color: white;
+
+
+            &:first-child {
+                display: none;
+            }
+        }
+
+
+    }
+
+    .main-content {
+
+        &.details {
+            .slider {
+                &:after {
+                        top: 0;
+                        right: -23rem;
+                        bottom: 0;
+                        left: 0;
+                    }
+            }
+        }
+
+        &.improve {
+            .slider {
+                &:after {
+                    top: 0;
+                    right: 3rem;
+                    bottom: 0;
+                    left: 0;             
+                }
+            }
+        }
+
+        &.about {
+            .slider {
+                &:after {
+                    top: 0;
+                    right: 26rem;
+                    bottom: 0;
+                    left: 0;
+                    width: 5.5rem !important;       
+                }
+            }
+        }
+
+
+        .video__bottom-section-mobile {
+
+            .slider {
+                margin: auto 0;
+            }
+
+
+        }
+
+        .slider {
+            position: fixed;
+            top: 6rem;
+            right: 0;
+            bottom: auto;
+            left: 0;
+            // inset: 6rem 0 auto 0;
+            max-width: 36rem;
+            margin: auto;
+            box-sizing: border-box;
+        }
+
+        &.video {
+
+            >.slider {
+                display: none;
+            }
+
+        }
+
+        &:not(.video) {
+
+            .slider {
+                padding: 0 1.7rem;
+                transition: .3s;
+
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    display: block;
+                    background: rgba(white, 20%);
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 4.2rem;
+                    margin: auto;
+                    height: 100%;
+                    width: 9.5rem;
+                    transition: .3s;
+                }
+
+                button {
+                    position: unset;
+                    z-index: 10;
+                    font-size: 1.6rem;
+
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .main-content.video {
+
+        >.slider {
+            display: none;
+        }
+
+    }
+
+
+
+}

@@ -1,0 +1,122 @@
+@use '../../base/base';
+@use '../../base/settings';
+
+// Mobile
+
+.video__ticket-details-mobile,
+.video__bottom-section-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 1023px) {
+
+    .video__ticket-details-mobile {
+        display: unset;
+        text-align: center;
+        margin: 0rem auto;
+        color: white;
+
+        .parag_16 {
+            margin-bottom: 1rem;
+        }
+
+        .head_40 {
+            margin-bottom: 5.4rem;
+        }
+
+    }
+
+    video {
+        border-radius: 1.5rem;
+        height: auto;
+    }
+
+    .video__bottom-section-mobile {
+        width: 100%;
+        height: 100%;
+        display: unset;
+        box-sizing: border-box;
+        max-width: 34.1rem;
+        margin: auto;
+        display: flex;
+    flex-direction: column;
+    
+
+        .parag_16 {
+            text-align: center;
+            color: settings.$blue;
+            margin-top: 3rem;
+        }
+
+        .slider {
+            position: unset;
+
+
+
+            button {
+                color: black;
+                text-align: center;
+                font-size: 1.6rem;
+
+                &:before {
+                    content: '';
+                    display: block;
+                    width: 8.2057rem;
+                    height: 8.151rem;
+                    margin: auto auto 1.5rem auto;
+                    background-size: 8.2057rem;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+
+                &:after {
+                    display: none;
+                }
+
+
+                $illustrations: details, improve, about;
+
+                @for $i from 1 through length($illustrations) {
+
+                    &:nth-child(#{$i+1}) {
+                        &:before {
+                            background: url('../assets/mobile/slider/#{nth($illustrations, $i)}Illus_mobile.svg');
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    .qr__login {
+
+        .parag_17 {
+            text-align: center;
+            color: white;
+            padding: 0 5rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .video__wrapper {
+            position: relative;
+            margin: AUTO;
+            width: 80%;
+
+            .basic-button {
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                left:0;
+                right:0;
+                bottom: 0;
+                // inset: 0;
+            }
+
+
+        }
+
+
+    }
+}

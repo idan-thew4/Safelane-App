@@ -1,0 +1,33 @@
+//Typography
+
+@mixin font-face($family, $src, $weight, $style) {
+  @font-face {
+    font-family: $family;
+    src: url($src);
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+//Heebo
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=Miriam+Libre:wght@700&display=swap");
+
+$font_main: "Heebo", sans-serif;
+$font_secondary: "Miriam Libre", sans-serif;
+
+//Colors
+$blue: #444fb2;
+$medium-blue: #1a8aff;
+$hover-blue: #006dd8;
+$light-blue: #f0f3fc;
+$grey: #726f6f;
+$mid-grey: #b6bcc8;
+$light-grey: #d9d9d9;
+$bg-grey: #f7f7f9;
+$error-red: #d4042a;
+
+@mixin parag_16 {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 120%;
+}

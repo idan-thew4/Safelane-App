@@ -1,0 +1,92 @@
+@use "../../base/base";
+@use "../../base/settings";
+
+.main-content.details {
+  .main-container__content-box {
+    padding-bottom: 7rem;
+    justify-content: start;
+
+    h3 {
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      &:before {
+        background: url("../assets/icons/details_icon.svg") no-repeat center;
+        content: "";
+        width: 4rem;
+        height: 4rem;
+        display: block;
+      }
+    }
+
+    .content {
+      p {
+        @include settings.parag_16;
+        white-space: pre-line;
+
+        strong {
+          font-weight: 600;
+          margin-bottom: 1rem;
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.details__title {
+  color: settings.$blue;
+}
+
+.details__data-container {
+  .recharts-wrapper {
+    width: 11rem;
+    height: 11rem;
+
+    svg {
+      width: 11rem;
+      height: 11rem;
+
+      path.recharts-sector {
+        stroke: none;
+      }
+    }
+  }
+}
+
+.details__content-mobile {
+  display: none;
+}
+
+.details__list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.details__data-container {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: center;
+  gap: 4.75rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .details__content-mobile {
+    display: unset;
+  }
+
+  .details__list-container {
+    gap: 0;
+
+    li {
+      margin-bottom: 4rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
