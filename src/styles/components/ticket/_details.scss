@@ -25,6 +25,7 @@
       p {
         @include settings.parag_16;
         white-space: pre-line;
+        margin-bottom: 2rem;
 
         strong {
           font-weight: 600;

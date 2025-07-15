@@ -55,41 +55,41 @@ const LoginForm = () => {
 
     if (ok) {
 
+      //to turn reCaptcha off//
+      // navigate(`/ticket/${values.ticketNumber}`);
 
-      navigate(`/ticket/${values.ticketNumber}`);
 
 
+      if (grecaptcha.getResponse() !== '') {
 
-      // if (grecaptcha.getResponse() !== '') {
+        (async () => {
+          try {
+            const response = await fetch(`${window.location.protocol}//${window.location.hostname}/reCaptcha.php?token=${grecaptcha.getResponse()}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            })
+            const data = await response.json();
+            if (data.success) {
+              if (openChat) {
+                // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
+                navigate(`/ticket/${values.ticketNumber}?openChat=true`);
+              } else {
+                navigate(`/ticket/${values.ticketNumber}`);
+              }
 
-      //   (async () => {
-      //     try {
-      //       const response = await fetch(`${window.location.protocol}//${window.location.hostname}/reCaptcha.php?token=${grecaptcha.getResponse()}`, {
-      //         method: 'POST',
-      //         headers: {
-      //           'Content-Type': 'application/json'
-      //         },
-      //       })
-      //       const data = await response.json();
-      //       if (data.success) {
-      //         if (openChat) {
-      //           // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
-      //           navigate(`/ticket/${values.ticketNumber}?openChat=true`);
-      //         } else {
-      //           navigate(`/ticket/${values.ticketNumber}`);
-      //         }
+            } else {
+              setReCaptchaError('נא לנסות שוב')
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        })();
 
-      //       } else {
-      //         setReCaptchaError('נא לנסות שוב')
-      //       }
-      //     } catch (error) {
-      //       console.error('Error fetching data:', error);
-      //     }
-      //   })();
-
-      // } else {
-      //   setReCaptchaError('אנא מלא')
-      // }
+      } else {
+        setReCaptchaError('אנא מלא')
+      }
 
     } else {
       setSubmitError("הפרטים שהזנתם אינם תואמים");

@@ -1,69 +1,70 @@
-@use '../../base/base';
-@use '../../base/settings';
+@use "../../base/base";
+@use "../../base/settings";
 
 .main-content.improve {
-
-    .main-container__content-box {
-        padding: 9rem 5rem;
-    }
-
+  .main-container__content-box {
+    padding: 9rem 5rem;
+  }
 }
 
-
 .improve__points {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 
-    li {
-        display: grid;
-        grid-template-columns: 5.6rem 1fr;
-        align-items: center;
-        gap: 2.75rem;
+  li {
+    display: grid;
+    grid-template-columns: 5.6rem 1fr;
+    align-items: center;
+    gap: 2.75rem;
+    margin-bottom: 2rem;
+
+    h2 {
+      margin-bottom: 0.5rem;
     }
+  }
 }
 
 .improve__image-container {
-    width: 5.6rem;
-    height: 6.3rem;
-    flex: 0 0 5.6rem;
+  width: 5.6rem;
+  height: 6.3rem;
+  flex: 0 0 5.6rem;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
 }
 
-.improve__title-mobile, .improve__content-mobile {
-    display: none;
+.improve__title-mobile,
+.improve__content-mobile {
+  display: none;
 }
 
 @media screen and (max-width: 1023px) {
+  .improve__title-mobile,
+  .improve__content-mobile {
+    display: unset;
+  }
 
-    .improve__title-mobile, .improve__content-mobile {
-        display: unset;
+  .improve__image-container {
+    width: 4.7;
+    height: auto;
+  }
+
+  .improve__points {
+    gap: 0;
+
+    li {
+      margin-bottom: 2rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-
-    .improve__image-container {
-        width: 4.7;
-        height: auto;
-    }
-
-    .improve__points {
-        gap: 0;
-
-        
-        li {
-            margin-bottom: 2rem;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-    }
+  }
 }

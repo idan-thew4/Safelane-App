@@ -1,6 +1,6 @@
 import React from "react";
 
-const Improve = ({ points, headlineMobile, textMobile}) => (
+const Improve = ({ points, headlineMobile, textMobile }) => (
     <>
         <h2 className="improve__title-mobile head_30">{headlineMobile}</h2>
         <p className="improve__content-mobile parag_18">{textMobile}</p>
@@ -12,7 +12,7 @@ const Improve = ({ points, headlineMobile, textMobile}) => (
                     </div>
                     <div className="improve__points__content">
                         <h2 className="head_20">{point.title}</h2>
-                        <p className="parag_18">{point.content}</p>
+                        <p className="parag_16">{point.content}</p>
                     </div>
                 </li>
             ))}

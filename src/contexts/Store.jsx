@@ -91,7 +91,7 @@ const Store = ({ children }) => {
   const [usersDetails, setUserDetails] = useState([]);
   let [formFilled, setFormFilled] = useState(false);
   const [redirectsQR, setRedirectsQR] = useState(false);
-  const url = 'https://wordpress-1308208-5685135.cloudwaysapps.com/';
+  const url = 'https://cms.lettersontheway.com/';
 
 
 
