@@ -91,7 +91,8 @@ const Store = ({ children }) => {
   const [usersDetails, setUserDetails] = useState([]);
   let [formFilled, setFormFilled] = useState(false);
   const [redirectsQR, setRedirectsQR] = useState(false);
-  const url = 'https://cms.lettersontheway.com/';
+  // const url = 'https://wordpress-1308208-5685135.cloudwaysapps.com/';
+  const url = 'https://cms.lettersontheway.com';
 
 
 
@@ -165,9 +166,19 @@ const Store = ({ children }) => {
 
 
   //Fetch ticket data from endpoint GET
-  const getTicketData = async (ticketId, carNum, qr = false) => {
+  const getTicketData = async (ticketId, carNum, qr = false, token) => {
     try {
-      const response = await fetch(`${url}/wp-json/safelane-api/check-if-ticket-exists?ticket_id=${ticketId}&car_num=${carNum}`);
+      const response = await fetch(`${url}/wp-json/safelane-api/check-if-ticket-exists`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ticketId: ticketId,
+          carNum: carNum,
+          recaptcha_token: token
+        })
+      });
       const data = await response.json();
       //todo: check of ticket exists
       if (data.ticketExists) {

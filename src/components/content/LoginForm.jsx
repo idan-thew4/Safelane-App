@@ -51,50 +51,53 @@ const LoginForm = () => {
 
   //Handel request 
   const handleLogin = async (e) => {
-    const ok = await getTicketData(values.ticketNumber, values.carNumber.replace(/-/g, ''));
+    if (grecaptcha.getResponse() !== '') {
 
-    if (ok) {
+      const ok = await getTicketData(values.ticketNumber, values.carNumber.replace(/-/g, ''), false, grecaptcha.getResponse());
 
-      //to turn reCaptcha off//
-      // navigate(`/ticket/${values.ticketNumber}`);
+      if (ok) {
+        if (openChat) {
+          // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
+          navigate(`/ticket/${values.ticketNumber}?openChat=true`);
+        } else {
+          navigate(`/ticket/${values.ticketNumber}`);
+        }
+        //to turn reCaptcha off//
+        // navigate(`/ticket/${values.ticketNumber}`);
 
 
 
-      if (grecaptcha.getResponse() !== '') {
 
-        (async () => {
-          try {
-            const response = await fetch(`${window.location.protocol}//${window.location.hostname}/reCaptcha.php?token=${grecaptcha.getResponse()}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-            })
-            const data = await response.json();
-            if (data.success) {
-              if (openChat) {
-                // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
-                navigate(`/ticket/${values.ticketNumber}?openChat=true`);
-              } else {
-                navigate(`/ticket/${values.ticketNumber}`);
-              }
+        // (async () => {
+        //   try {
+        //     const response = await fetch(`${window.location.protocol}//${window.location.hostname}/reCaptcha.php?token=${grecaptcha.getResponse()}`, {
+        //       method: 'POST',
+        //       headers: {
+        //         'Content-Type': 'application/json'
+        //       },
+        //     })
+        //     const data = await response.json();
+        //     if (data.success) {
 
-            } else {
-              setReCaptchaError('נא לנסות שוב')
-            }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        })();
+
+        //     } else {
+        //       setReCaptchaError('נא לנסות שוב')
+        //     }
+        //   } catch (error) {
+        //     console.error('Error fetching data:', error);
+        //   }
+        // })();
+
+
 
       } else {
-        setReCaptchaError('אנא מלא')
+        setSubmitError("הפרטים שהזנתם אינם תואמים");
+        setInputValues([values.ticketNumber, values.carNumber])
       }
-
     } else {
-      setSubmitError("הפרטים שהזנתם אינם תואמים");
-      setInputValues([values.ticketNumber, values.carNumber])
+      setReCaptchaError('אנא מלא')
     }
+
 
   };
 
