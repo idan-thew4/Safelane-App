@@ -13,13 +13,14 @@ const Login = () => {
 
 
     return (
-            <MainContainer
+        <MainContainer
             section={copy[0].page}
-            title = {copy[0].content[0].title}
-            text = {copy[0].content[0].text}
-            content = {<LoginForm/>}
+            title={copy[0].content[0].title}
+            text={copy[0].content[0].text}
+            content={<LoginForm />}
             illustration={illustrations[0]}
-            />
+
+        />
     )
 }
 

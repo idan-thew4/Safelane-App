@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useStore } from "../../contexts/Store";
 import { useForm } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -16,10 +16,19 @@ const LoginForm = () => {
   const [submitError, setSubmitError] = useState('');
   const [inputValues, setInputValues] = useState([])
   const [reCaptchaError, setReCaptchaError] = useState();
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const openChat = queryParams.get('openChat') === 'true';
+  const { id, carnum, qr } = useParams();
+
+
+  useEffect(() => {
+    if (id && carnum) {
+      setValue('carNumber', carnum);
+      setValue('ticketNumber', id);
+
+    }
+  }, [id, carnum]);
 
   //reCaptcha
 
@@ -32,10 +41,6 @@ const LoginForm = () => {
   }
 
 
-
-
-
-
   //Set up form hook
   const {
     register,
@@ -44,7 +49,8 @@ const LoginForm = () => {
     getValues,
     reset,
     watch,
-    setFocus
+    setFocus,
+    setValue
   } = useForm();
 
   const values = getValues();
@@ -124,9 +130,6 @@ const LoginForm = () => {
 
   }
 
-
-
-
   useEffect(() => {
 
     if (
@@ -199,6 +202,7 @@ const LoginForm = () => {
             className="form__input parag_16"
             type="tel"
             placeholder=" "
+            // value={}
             maxLength="10"
             name="carNumber"
             {...register("carNumber", {

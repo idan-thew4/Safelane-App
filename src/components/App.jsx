@@ -24,29 +24,29 @@ const App = () => {
         // We execute the same script as before
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-      });
+    });
 
 
-      useEffect(()=> {
-        if(location.pathname === '/login') {
+    useEffect(() => {
+        if (location.pathname === '/login') {
             document.querySelector('body').classList.add('login');
         } else {
             document.querySelector('body').classList.remove('login');
         }
 
-      }, [location]);
+    }, [location]);
 
 
 
 
 
-      
+
     return (
         <>
             <Routes>
                 <Route path="/" element={<Header />}>
                     <Route exact path="/login" element={<Login />} />
-                    <Route exact path="/ticket/qr/:id/:carnum" element={<QRlogin />} />
+                    <Route exact path="/ticket/qr/:id/:carnum" element={<Login />} />
                     <Route exact path="/ticket/dashboard/:id/:carnum" element={<QRlogin />} />
                     <Route exact path="/ticket/:id/" element={<Ticket />} />
                     {/* Redirects */}
