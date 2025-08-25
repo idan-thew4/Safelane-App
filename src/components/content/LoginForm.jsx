@@ -6,6 +6,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import safelaneLogo from '../../assets/safeLane_logo.svg';
 import ralbadLogo from '../../assets/ralbad_logo.png';
 import nativBatoach from '../../assets/nativ-batoach_logo.svg';
+import loaderSVG from "../../assets/spinner_blue.svg";
+
 
 
 
@@ -26,6 +28,8 @@ const LoginForm = () => {
   const [timeoutId, setTimeoutId] = useState(null);
   const [waitForResponse, setWaitForResponse] = useState(false);
   const recaptchaRef = useRef();
+  const [loader, setLoader] = useState(true);
+
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -69,11 +73,16 @@ const LoginForm = () => {
 
   //Handel request 
   const handleLogin = async (e) => {
+
     if (grecaptcha.getResponse() !== '') {
+      setLoader(true);
+
 
       const ok = await getTicketData(values.ticketNumber, values.carNumber.replace(/-/g, ''), false, grecaptcha.getResponse());
 
       if (ok) {
+        setLoader(false);
+
         if (openChat) {
           // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
           navigate(`/ticket/${values.ticketNumber}?openChat=true`);
@@ -122,7 +131,10 @@ const LoginForm = () => {
 
       }
     } else {
-      setReCaptchaError('אנא מלא')
+      setLoader(false);
+      setReCaptchaError('אנא מלא');
+
+
     }
 
 
@@ -250,86 +262,93 @@ const LoginForm = () => {
   return (
     <>
       <h2 className="head_20">{copy[0].content[0].boxTitle}</h2>
-      <p className="parag_16">{copy[0].content[0].boxText}</p>
-      <form className="form__login form" onSubmit={handleSubmit(handleLogin)}>
 
-        {/* carNumber */}
-        <div className={errors.carNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"}>
-          <input
-            onFocus={handleFocus}
-            onInput={(event) => handelKeyDown(event)}
-            onKeyDown={(event) => disableDash(event)}
-            className="form__input parag_16"
-            type="tel"
-            placeholder=" "
-            // value={}
-            maxLength="10"
-            name="carNumber"
-            {...register("carNumber", {
-              required: "נא להזין מספר רכב",
-              minLength: { value: 7, message: "נא להזין לפחות 7 ספרות" },
-              pattern: { value: /^[0-9-]+$/, message: "נא להזין מספרים בלבד" },
-            })}
-            onBlur={handleBlur}
+      {loader ? <img className="inner-loader" src={loaderSVG} /> :
+        <>
+          <p className="parag_16">{copy[0].content[0].boxText}</p>
 
-          />
-          <label className="placeholder-text parag_16">מספר רכב</label>
-          <button type="button" className={watch('carNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("carNumber")}></button>
-          {errors.carNumber && (<p className="form__input__errors caption_15">{errors.carNumber.message}</p>)}
-        </div>
+          <form className="form__login form" onSubmit={handleSubmit(handleLogin)}>
 
-        {/* ticketNumber */}
-        <div className={errors.ticketNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"} >
-          <input
-            onFocus={handleFocus}
-            className="form__input parag_16"
-            type="tel"
-            placeholder=" "
-            maxLength="8"
-            name="ticketNumber"
-            {...register("ticketNumber", {
-              required: "נא להזין מספר דיווח  ",
-              // minLength: { value: 5, message: "נא להזין 5 ספרות" },
-              pattern: { value: /^\d+$/, message: "נא להזין מספרים בלבד" },
-            })}
-            onBlur={handleBlur}
-          />
-          <label className="placeholder-text parag_16">מספר דיווח</label>
-          <button type="button" className={watch('ticketNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("ticketNumber")}></button>
-          {errors.ticketNumber && (<p className="form__input__errors caption_15">{errors.ticketNumber.message}</p>)}
-        </div>
-        <div className="reCaptcha">
-          <ReCAPTCHA
-            sitekey="6LcngCkpAAAAAHfNhRLiViKue4MOhYsFzf4AzmNz"
-            onChange={onChange}
-            ref={recaptchaRef}
-          />
-          {reCaptchaError && <p className="form__input__errors caption_15">{reCaptchaError}</p>}
-        </div>
-        <div className="form__button__wrapper">
-          {submitError && (<p className="form__input__errors caption_15">{submitError}</p>)}
-          <button
-            className="basic-button"
-            disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError || waitForResponse}
-            onClick={() => {
+            {/* carNumber */}
+            <div className={errors.carNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"}>
+              <input
+                onFocus={handleFocus}
+                onInput={(event) => handelKeyDown(event)}
+                onKeyDown={(event) => disableDash(event)}
+                className="form__input parag_16"
+                type="tel"
+                placeholder=" "
+                // value={}
+                maxLength="10"
+                name="carNumber"
+                {...register("carNumber", {
+                  required: "נא להזין מספר רכב",
+                  minLength: { value: 7, message: "נא להזין לפחות 7 ספרות" },
+                  pattern: { value: /^[0-9-]+$/, message: "נא להזין מספרים בלבד" },
+                })}
+                onBlur={handleBlur}
 
-              if (!errors.carNumber && !errors.ticketNumber && submitError === '' && !reCaptchaError) {
-                handleSubmit();
-                if (timeoutId !== null) {
-                  startTimeout()
-                }
-                setAttempts((prev) => prev + 1);
-              }
-            }}
-          >לצפייה בסרטון</button>
-        </div>
-      </form >
+              />
+              <label className="placeholder-text parag_16">מספר רכב</label>
+              <button type="button" className={watch('carNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("carNumber")}></button>
+              {errors.carNumber && (<p className="form__input__errors caption_15">{errors.carNumber.message}</p>)}
+            </div>
+
+            {/* ticketNumber */}
+            <div className={errors.ticketNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"} >
+              <input
+                onFocus={handleFocus}
+                className="form__input parag_16"
+                type="tel"
+                placeholder=" "
+                maxLength="8"
+                name="ticketNumber"
+                {...register("ticketNumber", {
+                  required: "נא להזין מספר דיווח  ",
+                  // minLength: { value: 5, message: "נא להזין 5 ספרות" },
+                  pattern: { value: /^\d+$/, message: "נא להזין מספרים בלבד" },
+                })}
+                onBlur={handleBlur}
+              />
+              <label className="placeholder-text parag_16">מספר דיווח</label>
+              <button type="button" className={watch('ticketNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("ticketNumber")}></button>
+              {errors.ticketNumber && (<p className="form__input__errors caption_15">{errors.ticketNumber.message}</p>)}
+            </div>
+            <div className="reCaptcha">
+              <ReCAPTCHA
+                sitekey="6LcngCkpAAAAAHfNhRLiViKue4MOhYsFzf4AzmNz"
+                onChange={onChange}
+                ref={recaptchaRef}
+              />
+              {reCaptchaError && <p className="form__input__errors caption_15">{reCaptchaError}</p>}
+            </div>
+            <div className="form__button__wrapper">
+              {submitError && (<p className="form__input__errors caption_15">{submitError}</p>)}
+              <button
+                className="basic-button"
+                disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError || waitForResponse}
+                onClick={() => {
+
+                  if (!errors.carNumber && !errors.ticketNumber && submitError === '' && !reCaptchaError) {
+                    handleSubmit();
+                    if (timeoutId !== null) {
+                      startTimeout()
+                    }
+                    setAttempts((prev) => prev + 1);
+                  }
+                }}
+              >לצפייה בסרטון</button>
+            </div>
+          </form >
+        </>
+      }
+
+
+
       <div className="login__logos">
         <img src={safelaneLogo} alt="SafeLane logo" />
         <img src={ralbadLogo} alt="ralbad logo" />
         <img src={nativBatoach} alt="nativ Batoach logo" />
-
-
       </div>
 
 

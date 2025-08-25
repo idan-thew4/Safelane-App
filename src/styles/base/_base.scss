@@ -209,10 +209,16 @@ video {
   object-fit: cover;
   object-position: center;
 }
+
 .spinner-wrapper {
   margin: auto;
   .spinner {
     width: 10rem;
     height: auto;
   }
+}
+
+.inner-loader {
+  width: 5rem;
+  height: auto;
 }
