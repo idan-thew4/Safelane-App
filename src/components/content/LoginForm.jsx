@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useStore } from "../../contexts/Store";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,18 @@ const LoginForm = () => {
   const queryParams = new URLSearchParams(location.search);
   const openChat = queryParams.get('openChat') === 'true';
   const { id, carnum, qr } = useParams();
+
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [attempts, setAttempts] = useState(0);
+  const [timeoutId, setTimeoutId] = useState(null);
+  const [waitForResponse, setWaitForResponse] = useState(false);
+  const recaptchaRef = useRef();
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
 
   useEffect(() => {
@@ -67,6 +79,7 @@ const LoginForm = () => {
           navigate(`/ticket/${values.ticketNumber}?openChat=true`);
         } else {
           navigate(`/ticket/${values.ticketNumber}`);
+
         }
         //to turn reCaptcha off//
         // navigate(`/ticket/${values.ticketNumber}`);
@@ -96,9 +109,17 @@ const LoginForm = () => {
 
 
 
+      } else if (attempts > 3) {
+        setTimeLeft(60)
+        timer();
+        setSubmitError(`עברת את מכסת השליחות. נסה שוב בעוד ${formatTime(timeLeft)}`);
+        clearTimeout(timeoutId);
       } else {
         setSubmitError("הפרטים שהזנתם אינם תואמים");
         setInputValues([values.ticketNumber, values.carNumber])
+        setWaitForResponse(false);
+        recaptchaRef.current.reset();
+
       }
     } else {
       setReCaptchaError('אנא מלא')
@@ -187,6 +208,45 @@ const LoginForm = () => {
 
   }
 
+  //submission counter//
+
+  const startTimeout = () => {
+    const id = setTimeout(() => {
+
+      setAttempts(0);
+      startTimeout();
+
+    }, 5000);
+
+    setTimeoutId(id);
+  };
+
+  function timer() {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+
+          return 0;
+        }
+
+        return prev - 1;
+      });
+    }, 1000);
+  }
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      setSubmitError(`עברת את מכסת השליחות. נסה שוב בעוד ${formatTime(timeLeft)}`);
+    } else {
+      setSubmitError();
+      setWaitForResponse(false);
+      recaptchaRef.current.reset();
+
+      setAttempts(0);
+    }
+  }, [timeLeft]);
+
   return (
     <>
       <h2 className="head_20">{copy[0].content[0].boxTitle}</h2>
@@ -242,6 +302,7 @@ const LoginForm = () => {
           <ReCAPTCHA
             sitekey="6LcngCkpAAAAAHfNhRLiViKue4MOhYsFzf4AzmNz"
             onChange={onChange}
+            ref={recaptchaRef}
           />
           {reCaptchaError && <p className="form__input__errors caption_15">{reCaptchaError}</p>}
         </div>
@@ -249,10 +310,20 @@ const LoginForm = () => {
           {submitError && (<p className="form__input__errors caption_15">{submitError}</p>)}
           <button
             className="basic-button"
-            disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError}
+            disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError || waitForResponse}
+            onClick={() => {
+
+              if (!errors.carNumber && !errors.ticketNumber && submitError === '' && !reCaptchaError) {
+                handleSubmit();
+                if (timeoutId !== null) {
+                  startTimeout()
+                }
+                setAttempts((prev) => prev + 1);
+              }
+            }}
           >לצפייה בסרטון</button>
         </div>
-      </form>
+      </form >
       <div className="login__logos">
         <img src={safelaneLogo} alt="SafeLane logo" />
         <img src={ralbadLogo} alt="ralbad logo" />

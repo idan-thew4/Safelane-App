@@ -5,16 +5,15 @@
 //Desktop
 
 .main-content.login {
-
   .main-container__content-box {
     align-items: center;
-  
+
     .head_20 {
       margin-bottom: 0.5rem;
     }
-  
+
     .head_20,
-    >.parag_16 {
+    > .parag_16 {
       color: settings.$blue;
     }
   }
@@ -27,8 +26,6 @@
   justify-content: center;
   justify-items: center;
   width: -webkit-fill-available;
-
-
 }
 
 .form__input__errors {
@@ -44,52 +41,46 @@
   width: fit-content;
 
   &.with-errors {
-    animation: no-no .5s;
+    animation: no-no 0.5s;
 
     @keyframes no-no {
-      0%{
+      0% {
         transform: translateX(0);
-    }
-      20%{
+      }
+      20% {
         transform: translateX(-1rem);
       }
-    
-      40%{
-        transform: translateX(.5rem);
+
+      40% {
+        transform: translateX(0.5rem);
       }
-    
-      60%{
-        transform: translateX(-.3rem);
+
+      60% {
+        transform: translateX(-0.3rem);
       }
-    
-      80%{
-        transform: translateX(.2rem);
+
+      80% {
+        transform: translateX(0.2rem);
       }
-    
-      100%{
+
+      100% {
         transform: translateX(0);
       }
-    
     }
-
 
     label {
       color: settings.$error-red;
     }
 
     .form__input {
-
       &:placeholder-shown {
-
-
-        &+label {
+        & + label {
           color: settings.$grey;
         }
       }
 
       &:not(:placeholder-shown) {
-
-        &+label {
+        & + label {
           color: settings.$error-red;
         }
       }
@@ -97,7 +88,6 @@
 
     .form__input {
       border-color: settings.$error-red;
-
     }
   }
 
@@ -105,8 +95,8 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     height: fit-content;
     margin: auto;
     margin-right: 2rem;
@@ -122,7 +112,7 @@
   border: 1px solid settings.$grey;
   padding: 0 2.3rem;
   font-family: settings.$font_main;
-  transition: .3s all;
+  transition: 0.3s all;
   width: 23rem;
   text-align: right;
 
@@ -135,7 +125,6 @@
     visibility: hidden;
   }
 
-
   &:focus {
     border-color: settings.$medium-blue;
     outline: none;
@@ -145,10 +134,7 @@
       visibility: visible;
     }
 
-
-
-
-    &+label {
+    & + label {
       top: -4rem;
       font-size: 1.2rem;
       color: settings.$medium-blue;
@@ -160,7 +146,7 @@
   }
 
   &:not(:placeholder-shown) {
-    +label {
+    + label {
       top: -4rem;
       font-size: 1.2rem;
       background-color: white;
@@ -168,12 +154,11 @@
       padding: 0 0.5rem;
     }
   }
-
 }
 
 .form__button__wrapper {
   position: relative;
-  
+  width: 100%;
 
   .basic-button {
     margin-top: 1rem;
@@ -190,19 +175,19 @@
 button.clearInput {
   opacity: 0;
   visibility: hidden;
-  transition: .3s all;
+  transition: 0.3s all;
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 100%;
   background-color: lighten(settings.$light-grey, 5%) !important;
   top: 0;
   right: auto;
-  bottom:0;
+  bottom: 0;
   left: 1.2rem;
   // inset: 0 auto 0 1.2rem;
   margin: auto;
   position: absolute;
-  background: url('../assets/form/x.svg') no-repeat center;
+  background: url("../assets/form/x.svg") no-repeat center;
   background-size: 1.2rem;
   cursor: pointer;
 
@@ -210,7 +195,7 @@ button.clearInput {
     opacity: 1;
     visibility: visible;
   }
-} 
+}
 
 .reCaptcha {
   position: relative;
@@ -223,15 +208,16 @@ button.clearInput {
     div {
       width: max-content;
     }
-
   }
 
   .form__input__errors {
     position: absolute;
-    right: 0;
+    text-align: center;
+    margin: auto;
+    width: 100%;
     bottom: -1.6rem;
+    padding: 0;
   }
-
 }
 
 .login__logos {
@@ -239,7 +225,6 @@ button.clearInput {
   align-items: center;
   position: absolute;
   bottom: -5rem;
-
 
   img {
     width: auto;
@@ -249,34 +234,23 @@ button.clearInput {
     &:last-child {
       margin-left: 0;
     }
-    
-  
   }
 }
 
+//Mobile
 
-
-
-
-//Mobile 
-
-@media screen and (max-width:1023px) {
-
+@media screen and (max-width: 1023px) {
   .form {
     row-gap: 3rem;
   }
 
-  .form__button__wrapper  {
-
+  .form__button__wrapper {
     .basic-button {
       margin-top: -1rem;
     }
-
   }
 
   .login__logos {
     display: none;
   }
-
-
 }
