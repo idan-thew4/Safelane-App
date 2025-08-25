@@ -28,7 +28,7 @@ const LoginForm = () => {
   const [timeoutId, setTimeoutId] = useState(null);
   const [waitForResponse, setWaitForResponse] = useState(false);
   const recaptchaRef = useRef();
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
 
 
   const formatTime = (seconds) => {
@@ -119,11 +119,15 @@ const LoginForm = () => {
 
 
       } else if (attempts > 3) {
+        setLoader(false);
+
         setTimeLeft(60)
         timer();
         setSubmitError(`עברת את מכסת השליחות. נסה שוב בעוד ${formatTime(timeLeft)}`);
         clearTimeout(timeoutId);
       } else {
+        setLoader(false);
+
         setSubmitError("הפרטים שהזנתם אינם תואמים");
         setInputValues([values.ticketNumber, values.carNumber])
         setWaitForResponse(false);
