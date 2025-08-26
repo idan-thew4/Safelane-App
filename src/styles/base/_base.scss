@@ -222,4 +222,8 @@ video {
   width: 5rem;
   height: auto;
   margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 9;
 }

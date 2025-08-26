@@ -24,7 +24,8 @@ const LoginForm = () => {
   const { id, carnum, qr } = useParams();
 
   const [timeLeft, setTimeLeft] = useState(60);
-  const [attempts, setAttempts] = useState(0);
+  // const [attempts, setAttempts] = useState(0);
+  const attemptsRef = useRef(0);
   const [timeoutId, setTimeoutId] = useState(null);
   const [waitForResponse, setWaitForResponse] = useState(false);
   const recaptchaRef = useRef();
@@ -73,6 +74,8 @@ const LoginForm = () => {
 
   //Handel request 
   const handleLogin = async (e) => {
+    attemptsRef.current += 1;
+
 
     if (grecaptcha.getResponse() !== '') {
       setLoader(true);
@@ -82,6 +85,7 @@ const LoginForm = () => {
 
       if (ok) {
         setLoader(false);
+
 
         if (openChat) {
           // navigate(`/ticket/${values.ticketNumber}?openChat=true`);
@@ -118,7 +122,7 @@ const LoginForm = () => {
 
 
 
-      } else if (attempts > 3) {
+      } else if (attemptsRef.current >= 3) {
         setLoader(false);
 
         setTimeLeft(60)
@@ -229,7 +233,7 @@ const LoginForm = () => {
   const startTimeout = () => {
     const id = setTimeout(() => {
 
-      setAttempts(0);
+      attemptsRef.current = 0;
       startTimeout();
 
     }, 5000);
@@ -259,7 +263,7 @@ const LoginForm = () => {
       setWaitForResponse(false);
       recaptchaRef.current.reset();
 
-      setAttempts(0);
+      attemptsRef.current = 0;
     }
   }, [timeLeft]);
 
@@ -267,85 +271,86 @@ const LoginForm = () => {
     <>
       <h2 className="head_20">{copy[0].content[0].boxTitle}</h2>
 
-      {loader ? <img className="inner-loader" src={loaderSVG} /> :
-        <>
-          <p className="parag_16">{copy[0].content[0].boxText}</p>
+      {loader &&
 
-          <form className="form__login form" onSubmit={handleSubmit(handleLogin)}>
+        <img className="inner-loader" src={loaderSVG} />}
+      <>
+        <p className="parag_16">{copy[0].content[0].boxText}</p>
 
-            {/* carNumber */}
-            <div className={errors.carNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"}>
-              <input
-                onFocus={handleFocus}
-                onInput={(event) => handelKeyDown(event)}
-                onKeyDown={(event) => disableDash(event)}
-                className="form__input parag_16"
-                type="tel"
-                placeholder=" "
-                // value={}
-                maxLength="10"
-                name="carNumber"
-                {...register("carNumber", {
-                  required: "נא להזין מספר רכב",
-                  minLength: { value: 7, message: "נא להזין לפחות 7 ספרות" },
-                  pattern: { value: /^[0-9-]+$/, message: "נא להזין מספרים בלבד" },
-                })}
-                onBlur={handleBlur}
+        <form className="form__login form" onSubmit={handleSubmit(handleLogin)}>
 
-              />
-              <label className="placeholder-text parag_16">מספר רכב</label>
-              <button type="button" className={watch('carNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("carNumber")}></button>
-              {errors.carNumber && (<p className="form__input__errors caption_15">{errors.carNumber.message}</p>)}
-            </div>
+          {/* carNumber */}
+          <div className={errors.carNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"}>
+            <input
+              onFocus={handleFocus}
+              onInput={(event) => handelKeyDown(event)}
+              onKeyDown={(event) => disableDash(event)}
+              className="form__input parag_16"
+              type="tel"
+              placeholder=" "
+              // value={}
+              maxLength="10"
+              name="carNumber"
+              {...register("carNumber", {
+                required: "נא להזין מספר רכב",
+                minLength: { value: 7, message: "נא להזין לפחות 7 ספרות" },
+                pattern: { value: /^[0-9-]+$/, message: "נא להזין מספרים בלבד" },
+              })}
+              onBlur={handleBlur}
 
-            {/* ticketNumber */}
-            <div className={errors.ticketNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"} >
-              <input
-                onFocus={handleFocus}
-                className="form__input parag_16"
-                type="tel"
-                placeholder=" "
-                maxLength="8"
-                name="ticketNumber"
-                {...register("ticketNumber", {
-                  required: "נא להזין מספר דיווח  ",
-                  // minLength: { value: 5, message: "נא להזין 5 ספרות" },
-                  pattern: { value: /^\d+$/, message: "נא להזין מספרים בלבד" },
-                })}
-                onBlur={handleBlur}
-              />
-              <label className="placeholder-text parag_16">מספר דיווח</label>
-              <button type="button" className={watch('ticketNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("ticketNumber")}></button>
-              {errors.ticketNumber && (<p className="form__input__errors caption_15">{errors.ticketNumber.message}</p>)}
-            </div>
-            <div className="reCaptcha">
-              <ReCAPTCHA
-                sitekey="6LcngCkpAAAAAHfNhRLiViKue4MOhYsFzf4AzmNz"
-                onChange={onChange}
-                ref={recaptchaRef}
-              />
-              {reCaptchaError && <p className="form__input__errors caption_15">{reCaptchaError}</p>}
-            </div>
-            <div className="form__button__wrapper">
-              {submitError && (<p className="form__input__errors caption_15">{submitError}</p>)}
-              <button
-                className="basic-button"
-                disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError || waitForResponse}
-                onClick={() => {
+            />
+            <label className="placeholder-text parag_16">מספר רכב</label>
+            <button type="button" className={watch('carNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("carNumber")}></button>
+            {errors.carNumber && (<p className="form__input__errors caption_15">{errors.carNumber.message}</p>)}
+          </div>
 
-                  if (!errors.carNumber && !errors.ticketNumber && submitError === '' && !reCaptchaError) {
-                    handleSubmit();
-                    if (timeoutId !== null) {
-                      startTimeout()
-                    }
-                    setAttempts((prev) => prev + 1);
+          {/* ticketNumber */}
+          <div className={errors.ticketNumber || submitError ? "form__input__wrapper with-errors" : "form__input__wrapper"} >
+            <input
+              onFocus={handleFocus}
+              className="form__input parag_16"
+              type="tel"
+              placeholder=" "
+              maxLength="8"
+              name="ticketNumber"
+              {...register("ticketNumber", {
+                required: "נא להזין מספר דיווח  ",
+                // minLength: { value: 5, message: "נא להזין 5 ספרות" },
+                pattern: { value: /^\d+$/, message: "נא להזין מספרים בלבד" },
+              })}
+              onBlur={handleBlur}
+            />
+            <label className="placeholder-text parag_16">מספר דיווח</label>
+            <button type="button" className={watch('ticketNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("ticketNumber")}></button>
+            {errors.ticketNumber && (<p className="form__input__errors caption_15">{errors.ticketNumber.message}</p>)}
+          </div>
+          <div className="reCaptcha">
+            <ReCAPTCHA
+              sitekey="6LcngCkpAAAAAHfNhRLiViKue4MOhYsFzf4AzmNz"
+              onChange={onChange}
+              ref={recaptchaRef}
+            />
+            {reCaptchaError && <p className="form__input__errors caption_15">{reCaptchaError}</p>}
+          </div>
+          <div className="form__button__wrapper">
+            {submitError && (<p className="form__input__errors caption_15">{submitError}</p>)}
+            <button
+              className="basic-button"
+              disabled={errors.carNumber || errors.ticketNumber || submitError !== '' || reCaptchaError || waitForResponse || timeLeft > 0 && timeLeft <= 60}
+              onClick={() => {
+
+                if (!errors.carNumber && !errors.ticketNumber && submitError === '' && !reCaptchaError) {
+                  handleSubmit();
+                  if (timeoutId !== null) {
+                    startTimeout()
                   }
-                }}
-              >לצפייה בסרטון</button>
-            </div>
-          </form >
-        </>
-      }
+                }
+              }}
+            >לצפייה בסרטון</button>
+          </div>
+        </form >
+      </>
+
 
 
 

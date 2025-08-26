@@ -47,7 +47,7 @@ const App = () => {
                 <Route path="/" element={<Header />}>
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/ticket/qr/:id/:carnum" element={<Login />} />
-                    <Route exact path="/ticket/dashboard/:id/:carnum" element={<QRlogin />} />
+                    <Route exact path="/ticket/dashboard/:id/:carnum" element={<Login />} />
                     <Route exact path="/ticket/:id/" element={<Ticket />} />
                     {/* Redirects */}
                     <Route path="/" element={<Navigate to="/login" />} />
