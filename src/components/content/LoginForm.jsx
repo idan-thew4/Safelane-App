@@ -297,6 +297,8 @@ const LoginForm = () => {
                 pattern: { value: /^[0-9-]+$/, message: "נא להזין מספרים בלבד" },
               })}
               onBlur={handleBlur}
+              disabled={timeLeft > 0 && timeLeft <= 60}
+
 
             />
             <label className="placeholder-text parag_16">מספר רכב</label>
@@ -319,6 +321,8 @@ const LoginForm = () => {
                 pattern: { value: /^\d+$/, message: "נא להזין מספרים בלבד" },
               })}
               onBlur={handleBlur}
+              disabled={timeLeft > 0 && timeLeft <= 60}
+
             />
             <label className="placeholder-text parag_16">מספר דיווח</label>
             <button type="button" className={watch('ticketNumber') ? "clearInput show" : "clearInput"} onClick={() => handleClearInput("ticketNumber")}></button>
