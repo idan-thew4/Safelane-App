@@ -23,7 +23,7 @@ const LoginForm = () => {
   const openChat = queryParams.get('openChat') === 'true';
   const { id, carnum, qr } = useParams();
 
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(0);
   // const [attempts, setAttempts] = useState(0);
   const attemptsRef = useRef(0);
   const [timeoutId, setTimeoutId] = useState(null);
